@@ -11,12 +11,17 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL("/pokemon", req.url));
   }
 
-  if (!accessToken && protectedPath.some(path => redirectedUrl.includes(path))) {
-    const url = new URL("/pokemon", req.url);
-    url.searchParams.set("afterGamePage", true);
+  console.log("middleware", {
+    accessToken,
+    check: protectedPath.some(path => redirectedUrl.includes(path)),
+    protectedPath
+  })
+  // if (!accessToken && protectedPath.some(path => redirectedUrl.includes(path))) {
+  //   const url = new URL("/pokemon", req.url);
+  //   url.searchParams.set("afterGamePage", true);
     
-    return NextResponse.redirect(url);
-  }
+  //   return NextResponse.redirect(url);
+  // }
 
   
   return NextResponse.next();
