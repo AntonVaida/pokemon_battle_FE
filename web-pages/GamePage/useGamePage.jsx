@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClientContext, useOrientation, useIsScreenVersion } from "@/hooks";
 import { getPlayers, getConnected, gameActions, getLoading } from "@/store/gameReducer";
 import { getPokemonSelected } from "@/store/pokemonReducer";
+import { authAPI } from "@/shared";
 
-export const useGamePage = ({accessToken}) => {
+export const useGamePage = () => {
   const router = useRouter();
   const [attackDetail, setAttackDetail] = useState(null);
   const { user } = useClientContext();
@@ -25,13 +26,16 @@ export const useGamePage = ({accessToken}) => {
   const { isMobileVersion, isTabletVersion } = useIsScreenVersion();
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
-  console.log("useGamePage", {accessToken})
+  const connectedHandler = useCallback(async () => {
+    const accessToken = await authAPI.getAccessTokenFromCookies();
+    if (user?.address && accessToken) {
+       dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
+    }
+  }, [selectedPokemon, user, dispatch])
 
   useEffect(() => {
-    if (user?.address) {
-      dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
-    }
-  }, [user, dispatch, accessToken, selectedPokemon])
+    connectedHandler()
+  }, [user, dispatch, selectedPokemon])
 
   const attackHandler = useCallback(() => {
     if (user?.address && !loading) {
