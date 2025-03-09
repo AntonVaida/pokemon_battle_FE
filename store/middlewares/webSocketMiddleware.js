@@ -41,12 +41,32 @@ export const webSocketMiddleware = (store) => {
                 });
                 break;
               default:
-                console.warn("⚠️ Невідомий тип повідомлення:", data);
+                toast.error(`Unknown message type:`, {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
             }
           };
 
           socket.onerror = (error) => {
-            console.log("❌ Помилка WebSocket:", error);
+            toast.error(`${error?.message}`, {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
           };
 
           socket.onclose = () => {
