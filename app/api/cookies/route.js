@@ -6,7 +6,7 @@ export async function GET(req) {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://pokemon-battle-fe-3i7e.vercel.app",
+        "Access-Control-Allow-Origin": req.headers.get("origin") || "https://pokemon-battle-fe-3i7e.vercel.app",
         "Access-Control-Allow-Credentials": "true",
       },
     });
