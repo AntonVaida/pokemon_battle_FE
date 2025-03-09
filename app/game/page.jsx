@@ -1,11 +1,18 @@
 import { GamePage } from "@/web-pages/GamePage";
-import { cookies } from "next/headers";
+import { Suspense } from "react";
+import { Loader } from "@/components/Loader";
 
-export default async function PokemonList () {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
+export default function PokemonList () {
 
   return (
-    <GamePage accessToken={accessToken} />
+    <Suspense 
+      fallback={
+        <div className="w-full min-h-[100vh] flex justify-center items-center">
+          <Loader width={56} height={56} />
+        </div>
+      }
+    >
+      <GamePage />
+    </Suspense>
   )
 }

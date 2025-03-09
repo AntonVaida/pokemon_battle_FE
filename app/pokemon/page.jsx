@@ -1,11 +1,7 @@
 import { PokemonPage } from "@/web-pages/PokemonPage";
-import { cookies } from "next/headers";
 
-export default async function SelectPokemon () {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken");
-
+export default function SelectPokemon () {
   return (
-   <PokemonPage accessToken={accessToken} />
+   <PokemonPage />
   )
 }

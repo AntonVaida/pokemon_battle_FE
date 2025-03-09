@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { HistoryModal } from "@/components/HistoryModal";
 import { WinnerModal } from "@/components/WinnerModal";
 import { GameLeaveModal } from "@/components/GameLeaveModal";
 import { useSelector } from "react-redux";

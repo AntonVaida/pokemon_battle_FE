@@ -9,7 +9,7 @@ import { useGamePage } from "./useGamePage";
 import { HocGamePage } from "./HocGamePage";
 import { HistoryModal } from "@/components/HistoryModal";
 
-export const GamePage = ({accessToken}) => {
+export const GamePage = () => {
   const {
     exitGame,
     yourPokemon,
@@ -23,7 +23,7 @@ export const GamePage = ({accessToken}) => {
     gameFieldContainer,
     openHistoryModal,
     setOpenHistoryModal
-  } = useGamePage({accessToken});
+  } = useGamePage();
 
   return (
     <HocGamePage>

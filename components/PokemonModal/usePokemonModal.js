@@ -18,7 +18,7 @@ export const usePokemonModal = ({accessToken}) => {
     }
 
     login(() => router.push("/game"))
-  }, [user, login, router])
+  }, [user, login, router, accessToken])
 
   const imageSizeConfig = useMemo(() => {
     if (isMobileVersion) {
