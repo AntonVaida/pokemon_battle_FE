@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClientContext, useOrientation, useIsScreenVersion } from "@/hooks";
 import { getPlayers, getConnected, gameActions, getLoading } from "@/store/gameReducer";
 import { getPokemonSelected } from "@/store/pokemonReducer";
-import { authAPI } from "@/shared";
 import { toast, Bounce } from "react-toastify";
 
 export const useGamePage = () => {
@@ -29,10 +28,9 @@ export const useGamePage = () => {
 
   const connectedHandler = useCallback(async () => {
     try {
-      const accessToken = await authAPI.getAccessTokenFromCookies();
-      console.log("useGamePage", {accessToken })
-      if (user?.address && accessToken) {
-        dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
+      console.log("useGamePage", { user })
+      if (user?.address && user?.token) {
+        dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken: user?.token}));
       }
     } catch (error) {
       toast.error(`${error?.message}`, {
