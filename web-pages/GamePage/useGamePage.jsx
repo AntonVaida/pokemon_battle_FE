@@ -28,7 +28,6 @@ export const useGamePage = () => {
 
   const connectedHandler = useCallback(async () => {
     try {
-      console.log("useGamePage", { user })
       if (user?.address && user?.token) {
         dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken: user?.token}));
       }

@@ -12,7 +12,6 @@ export const AuthProvider = ({children}) => {
   const [authError, setAutherror] = useState(null);
   const [openInstallMetamask, setOpenInstallMetamask] = useState(false);
 
-  console.log("AuthContext", { user, authError})
   const login = async (callbackRedirectFunction) => {
     if (!window.ethereum) {
       setOpenInstallMetamask(true);
@@ -30,7 +29,6 @@ export const AuthProvider = ({children}) => {
 
       setUser(authResponse)
     } catch (error) {
-      console.log("Auth Error:", error);
       setAutherror(error)
     } finally {
       setLoading(false);
