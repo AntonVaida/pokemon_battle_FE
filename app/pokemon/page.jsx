@@ -1,6 +1,6 @@
 import { PokemonPage } from "@/web-pages/PokemonPage";
 
-export default async function SelectPokemon () {
+export default function SelectPokemon () {
   return (
    <PokemonPage />
   )

@@ -7,6 +7,7 @@ import { useClientContext, useOrientation, useIsScreenVersion } from "@/hooks";
 import { getPlayers, getConnected, gameActions, getLoading } from "@/store/gameReducer";
 import { getPokemonSelected } from "@/store/pokemonReducer";
 import { authAPI } from "@/shared";
+import { toast, Bounce } from "react-toastify";
 
 export const useGamePage = () => {
   const router = useRouter();
@@ -27,9 +28,23 @@ export const useGamePage = () => {
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
   const connectedHandler = useCallback(async () => {
-    const accessToken = await authAPI.getAccessTokenFromCookies();
-    if (user?.address && accessToken) {
-       dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
+    try {
+      const accessToken = await authAPI.getAccessTokenFromCookies();
+      if (user?.address && accessToken) {
+        dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
+      }
+    } catch (error) {
+      toast.error(`${error?.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   }, [selectedPokemon, user, dispatch])
 

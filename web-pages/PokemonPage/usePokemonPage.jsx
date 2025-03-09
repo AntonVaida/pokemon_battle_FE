@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { getPokemonSelected } from "@/store/pokemonReducer";
 import { authAPI } from "@/shared";
+import { toast, Bounce } from "react-toastify";
 
 export const usePokemonPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,10 +12,24 @@ export const usePokemonPage = () => {
   const [accessToken, setAccessToken] = useState(null);
 
   const getAccessToken = async () => {
-    const accessToken = await authAPI.getAccessTokenFromCookies();
+    try {
+      const accessToken = await authAPI.getAccessTokenFromCookies();
 
-    if (accessToken) {
-      setAccessToken(accessToken)
+      if (accessToken) {
+        setAccessToken(accessToken)
+      }
+    } catch (error) {
+      toast.error(`${error?.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   }
   const onOpenModal = useCallback(() => {
