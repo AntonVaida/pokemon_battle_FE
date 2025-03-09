@@ -15,7 +15,7 @@ export const authAPI = {
   async getAccessTokenFromCookies() {
     const COOKIE_API_URL = `${process.env.NEXT_PUBLIC_FE_BASE_API}/api/cookies`;
 
-    const res = await api.get(COOKIE_API_URL, {},
+    const res = await api.get(COOKIE_API_URL,
     { withCredentials: true }
   );
     return res?.data?.accessToken;
