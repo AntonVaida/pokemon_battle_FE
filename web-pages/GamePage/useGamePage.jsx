@@ -25,15 +25,13 @@ export const useGamePage = ({accessToken}) => {
   const { isMobileVersion, isTabletVersion } = useIsScreenVersion();
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
-  const connectedHandler =  useCallback(async () => {
-    if (user?.address) {
-       dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
-    }
-  }, [selectedPokemon, user, dispatch, accessToken])
+  console.log("useGamePage", {accessToken})
 
   useEffect(() => {
-    connectedHandler()
-  }, [user, connectedHandler])
+    if (user?.address) {
+      dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
+    }
+  }, [user, dispatch, accessToken, selectedPokemon])
 
   const attackHandler = useCallback(() => {
     if (user?.address && !loading) {
