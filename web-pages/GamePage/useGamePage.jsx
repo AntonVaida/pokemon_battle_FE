@@ -30,6 +30,7 @@ export const useGamePage = () => {
   const connectedHandler = useCallback(async () => {
     try {
       const accessToken = await authAPI.getAccessTokenFromCookies();
+      console.log("useGamePage", {accessToken })
       if (user?.address && accessToken) {
         dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken}));
       }
