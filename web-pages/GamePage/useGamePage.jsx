@@ -28,8 +28,8 @@ export const useGamePage = () => {
 
   const connectedHandler = useCallback(async () => {
     try {
-      if (user?.address && user?.token) {
-        dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken: user?.token}));
+      if (user?.address && user?.accessToken) {
+        dispatch(gameActions.joinGame({...selectedPokemon, userId: user?.address, accessToken: user?.accessToken}));
       }
     } catch (error) {
       toast.error(`${error?.message}`, {
@@ -48,7 +48,7 @@ export const useGamePage = () => {
 
   useEffect(() => {
     connectedHandler()
-  }, [user, dispatch, selectedPokemon])
+  }, [user, user?.accessToken, dispatch, selectedPokemon])
 
   const attackHandler = useCallback(() => {
     if (user?.address && !loading) {

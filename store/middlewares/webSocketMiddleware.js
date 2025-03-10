@@ -1,8 +1,14 @@
 import { gameActions } from "../gameReducer";
 import { toast, Bounce } from "react-toastify";
+import { authAPI } from "@/shared";
 
 export const webSocketMiddleware = (store) => {
   let socket = null;
+  let user = null;
+
+  if (typeof window !== "undefined" && sessionStorage) {
+    user = JSON.parse(sessionStorage.getItem("user"));
+  }
 
   return (next) => async (action) => {
     switch (action.type) {
@@ -17,7 +23,7 @@ export const webSocketMiddleware = (store) => {
             store.dispatch(gameActions.setConnected(true));
           };
 
-          socket.onmessage = (event) => {
+          socket.onmessage = async (event) => {
             const data = JSON.parse(event.data);
             switch (data.type) {
               case "UPDATE_STATE":
@@ -28,17 +34,29 @@ export const webSocketMiddleware = (store) => {
                 store.dispatch(gameActions.setLoading(false));
                 break;
               case "ERROR":
-                toast.error(`${data?.message}`, {
-                  position: "bottom-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: false,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  transition: Bounce,
-                });
+                if (data?.message === 'jwt expired') {
+                  const updatedUser = await authAPI.updateAccessToken({
+                    accessToken: action?.payload?.accessToken, 
+                    refreshToken: user?.refreshToken, 
+                    address: user?.address 
+                  })
+
+                  if (typeof window !== "undefined" && updatedUser && Object.keys(updatedUser)?.length && sessionStorage) {
+                    sessionStorage.setItem("user", JSON.stringify(updatedUser));
+                  }
+                } else {
+                  toast.error(`${data?.message}`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                  });
+                }
                 break;
               default:
                 toast.error(`Unknown message type:`, {
