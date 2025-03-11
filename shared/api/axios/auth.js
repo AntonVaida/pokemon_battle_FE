@@ -12,6 +12,19 @@ export const authAPI = {
   );
     return res?.data;
   },
+  async updateAccessToken({accessToken, refreshToken, address}) {
+    const UPDATE_ACCESS_TOKEN_URL = `${process.env.NEXT_PUBLIC_BASE_API}/auth/update-access-token?accessToken=${accessToken}`;
+
+    const res = await api.post(UPDATE_ACCESS_TOKEN_URL, {
+        address, 
+        accessToken,  
+        refreshToken
+      },
+      { withCredentials: true }
+    );
+
+    return res?.data;
+  }, 
   async logoutUser() {
     const LOGOUT_URL = `${process.env.NEXT_PUBLIC_BASE_API}/auth/logout`;
 

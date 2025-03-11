@@ -7,7 +7,7 @@ import { useIsScreenVersion, useClientContext, useOrientation } from "@/hooks";
 export const useWinnerModal = () => {
   const router = useRouter();
   const { isMobileVersion, isTabletVersion } = useIsScreenVersion();
-  const { user, logout } = useClientContext();
+  const { user } = useClientContext();
   const dispatch = useDispatch();
   const { isPortrait } = useOrientation();
 
@@ -23,15 +23,12 @@ export const useWinnerModal = () => {
 
   const exitGame = useCallback(() => {
     try {
-      // dispatch(gameActions.setLoading(true));
       dispatch(gameActions.disconnect({userId: user?.address}));
-      // logout(() => router.push("/pokemon"));
       router.push("/pokemon")
     } catch (error) {
       console.error(error?.message);
-      // dispatch(gameActions.setLoading(false));
     }
-  }, [user, dispatch, logout, router])
+  }, [user, dispatch, router])
 
 
   const changeOrientationStyles = useMemo(() => {

@@ -25,6 +25,6 @@ export const usePokemonPage = () => {
     onCloseModal,
     modalOpen,
     selectedPokemon,
-    accessToken: user?.token,
+    accessToken: user?.accessToken,
   }
 }

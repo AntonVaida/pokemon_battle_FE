@@ -16,10 +16,10 @@ export const PokemonPage = () => {
 
   return (
     <HocPokemonPage>
-    <div className="w-full min-h-[100vh] bg-white relative">
+    <div className="w-full min-h-[100vh] bg-white relative flex justify-center ">
       <PokemonModal isOpen={modalOpen} setOpen={onCloseModal} accessToken={accessToken} />
       <PokemonList />
-      <div className="flex justify-center items-center fixed bottom-[24px] h-[60px] lg:h-[80px] w-full">
+      <div className="flex justify-center items-center fixed bottom-[24px] h-[60px] lg:h-[80px]">
         <button
           disabled={!selectedPokemon}
           className={`bg-purple w-[200px] lg:w-[350px] h-[60px] lg:h-[80px] font-helvetica text-[16px] lg:text-[24px] font-bold text-white rounded-[30px] lg:rounded-[50px] shadow-xl ${!selectedPokemon ? 'opacity-75' : 'hover:bg-pink'} transition-colors duration-300`}

@@ -11,7 +11,7 @@ export const metadata = {
     siteName: "Pokemon Battle",
     images: [
       {
-        url: "https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/images/pokedex/thumbnails/001.png",
+        url: "https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/images/pokedex/thumbnails/025.png",
         width: 1200,
         height: 630,
         alt: "Compete in Pokémon battles online with friends!",
@@ -23,7 +23,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Pokemon Battle | Онлайн битви",
     description: "Compete in Pokémon battles online with friends!",
-    images: ["https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/images/pokedex/thumbnails/001.png"],
+    images: ["https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/images/pokedex/thumbnails/025.png"],
   },
 };
 
