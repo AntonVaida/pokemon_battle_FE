@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { noticeApi, authAPI } from "../shared";
 import { useSessionStorage, useIsMobile } from "../hooks";
 import { ToastContainer } from "react-toastify";
@@ -15,7 +14,7 @@ export const AuthProvider = ({children}) => {
   const { isMobile } = useIsMobile();
 
   const login = async (callbackRedirectFunction) => {
-    if (!window.ethereum && !isMobile) {
+    if (!window.ethereum) {
       setOpenInstallMetamask(true);
       return;
     }
@@ -23,23 +22,16 @@ export const AuthProvider = ({children}) => {
     try {
       setLoading(true);
       let provider;
-      let signer;
 
       if (!isMobile) {
         provider = new ethers.BrowserProvider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
-        signer = await provider.getSigner();
       } else {
-        const walletConnectProvider = new WalletConnectProvider({
-          rpc: {
-            1: process.env.NEXT_PUBLIC_INFURA_API,
-          },
-        });
-
-        await walletConnectProvider.enable();
-        provider = new ethers.BrowserProvider(walletConnectProvider);
-        signer = await provider.getSigner();
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        provider = new ethers.BrowserProvider(window.ethereum);
       }
+
+      const signer = await provider.getSigner();
       const userAddress = await signer.getAddress();
       const { nonce } = await noticeApi.getNoticeAPI({userAddress});
       const signature = await signer.signMessage(nonce);
